@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.Collections;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -22,14 +21,12 @@ public class SwaggerConfiguration {
 				.apis(RequestHandlerSelectors.basePackage("com.rituj.userService.UserService.controller"))
 				.paths(PathSelectors.any()).build().apiInfo(apiInfo());
 	}
-	
+
 	private ApiInfo apiInfo() {
-	     return new ApiInfo(
-	       "My UserService API", 
-	       "We will be implementng the UserService based on the couchbase key-value.", 
-	       "API TOS", 
-	       "Terms of service", 
-	       new Contact("Rituj", "https://github.com/hakuna16/UserService/", "ritujkuamr@hotmail.com"), 
-	       "License of API", "API license URL");
+		return new ApiInfo("My UserService API",
+				"We will be implementng the UserService based on the couchbase key-value.", "API TOS",
+				"Terms of service",
+				new Contact("Rituj", "https://github.com/hakuna16/UserService/", "ritujkuamr@hotmail.com"),
+				"License of API", "API license URL");
 	}
 }
