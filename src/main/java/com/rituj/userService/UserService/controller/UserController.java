@@ -65,4 +65,10 @@ public class UserController {
 	public User deleteUserProfile(@PathVariable("userId") final String userId) {
 		return null;
 	}
+	
+	@ApiOperation(value = "Creates user Profiles", response = User.class)
+	@RequestMapping(value = "/user", method = POST, produces = APPLICATION_JSON)
+	public User cerateUserProfile(@RequestParam("user") final User user) {
+		return null;
+	}
 }
