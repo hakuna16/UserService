@@ -32,7 +32,7 @@ public class UserRepositoryTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void testUpsertWheUserIsNull() throws InvalidDataException{
-		userRepository.upsert(null);
+		userRepository.upsertUser(null);
 	}
 	
 	@Test
@@ -47,7 +47,7 @@ public class UserRepositoryTest {
 		when(couchbaseHelper.upsertDocument(mockedBucket, user)).thenReturn(jsonDocument);
 		when(mockedCbJsonObjectTransformer.toObject(jsonDocument, User.class)).thenReturn(user);
 
-		User userExpected = userRepository.upsert(user);
+		User userExpected = userRepository.upsertUser(user);
 		assertNotNull(userExpected);
 	}
 	

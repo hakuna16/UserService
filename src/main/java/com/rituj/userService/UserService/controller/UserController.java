@@ -33,7 +33,7 @@ public class UserController {
 
 	@ApiOperation(value = "Creates user Profiles", response = User.class)
 	@RequestMapping(value = "/user", method = POST, consumes = APPLICATION_JSON)
-	public User createUserProfile(@RequestBody User user) throws InvalidDataException {
+	public User createUserProfile(@RequestBody final User user) {
 		Assert.notNull(user, "user can not be empty or null");
 
 		return userSerivce.createUserProfile(user);
@@ -60,13 +60,19 @@ public class UserController {
 	@ApiOperation(value = "View Security question for user for the given user Id", response = SecurityQuestion.class)
 	@RequestMapping(value = "/{userId}/questions", method = GET, produces = APPLICATION_JSON)
 	public @ResponseBody SecurityQuestion getSecurityQuestions(@PathVariable("userId") final String userId) {
-		return null;
+		Assert.hasText(userId, "User Id cant be null");
+
+		return userSerivce.getSecurityQuestion(userId);
 	}
 
 	@ApiOperation(value = "Add Security question for the give user Id", response = SecurityQuestion.class)
 	@RequestMapping(value = "/{userId}/questions", method = POST, consumes = APPLICATION_JSON)
-	public SecurityQuestion setSecurityQuestions(@RequestBody SecurityQuestion securityQuestion,  @PathVariable("userId") final String userId) {
-		return null;
+	public SecurityQuestion setSecurityQuestions(@RequestBody SecurityQuestion securityQuestion,
+			@PathVariable("userId") final String userId) throws InvalidDataException {
+		Assert.notNull(securityQuestion, "user can not be empty or null");
+		Assert.hasText(userId, "User Id cant be null");
+
+		return userSerivce.setSecurityQuestion(securityQuestion, userId);
 	}
 
 	@ApiOperation(value = "check if user is authorised for the given user Id", response = Boolean.class)

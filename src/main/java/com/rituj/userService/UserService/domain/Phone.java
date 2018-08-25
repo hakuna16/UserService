@@ -1,7 +1,11 @@
 package com.rituj.userService.UserService.domain;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
+@NoArgsConstructor
 public class Phone {
 	@ApiModelProperty(notes = "Type of phone", required = true, example="Work")
 	private String type;

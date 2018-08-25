@@ -1,7 +1,11 @@
 package com.rituj.userService.UserService.domain;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
+@NoArgsConstructor
 public class SecurityQuestion extends Entity {
 
 	@ApiModelProperty(notes = "Security Question 1", required = true, example = "Question1")

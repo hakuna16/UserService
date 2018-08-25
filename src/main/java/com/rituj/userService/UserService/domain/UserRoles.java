@@ -1,7 +1,11 @@
 package com.rituj.userService.UserService.domain;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
+@NoArgsConstructor
 public class UserRoles extends Entity {
 
 	@ApiModelProperty(notes = "Array of Security Roles", required = true, example = "[1001,1002]")

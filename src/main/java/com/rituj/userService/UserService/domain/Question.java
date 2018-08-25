@@ -1,7 +1,11 @@
 package com.rituj.userService.UserService.domain;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
+@NoArgsConstructor
 public class Question {
 
 	@ApiModelProperty(notes = "Security question", required = true, example = "What is your fav color!?")

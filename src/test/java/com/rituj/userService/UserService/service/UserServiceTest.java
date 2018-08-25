@@ -44,7 +44,7 @@ public class UserServiceTest {
 		phones.add(buildPhone());
 		user.setPhones(phones);
 
-		when(userRepository.upsert(user)).thenReturn(user);
+		when(userRepository.upsertUser(user)).thenReturn(user);
 
 		User userExpected = userService.createUserProfile(user);
 
