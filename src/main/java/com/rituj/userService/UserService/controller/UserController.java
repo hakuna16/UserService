@@ -12,12 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.rituj.userService.UserService.domain.Login;
 import com.rituj.userService.UserService.domain.SecurityQuestion;
 import com.rituj.userService.UserService.domain.User;
-import com.rituj.userService.UserService.exception.InvalidDataException;
 import com.rituj.userService.UserService.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -48,7 +47,7 @@ public class UserController {
 	@ApiOperation(value = "View user for that userId", response = User.class)
 	@RequestMapping(value = "/{userId}", method = GET, produces = APPLICATION_JSON)
 	public User getUserProfile(@PathVariable("userId") final String userId) {
-		return null;
+		return userSerivce.getUserProfile(userId);
 	}
 
 	@ApiOperation(value = "Delete user Profiles for the given user Id", response = User.class)
@@ -57,9 +56,25 @@ public class UserController {
 		return null;
 	}
 
+	@ApiOperation(value = "Creates login for user Profiles", response = Login.class)
+	@RequestMapping(value = "/login", method = POST, consumes = APPLICATION_JSON)
+	public Login createLoginForUser(@RequestBody final Login login) {
+		Assert.notNull(login, "login can not be empty or null");
+
+		return userSerivce.createLoginForUser(login);
+	}
+
+	@ApiOperation(value = "Get login details for user Id", response = Login.class)
+	@RequestMapping(value = "/login/{userId}", method = GET, produces = APPLICATION_JSON)
+	public Login getLogin(@PathVariable("userId") final String userId) {
+		Assert.hasText(userId, "userId can not be empty or null");
+
+		return userSerivce.getLogin(userId);
+	}
+
 	@ApiOperation(value = "View Security question for user for the given user Id", response = SecurityQuestion.class)
 	@RequestMapping(value = "/{userId}/questions", method = GET, produces = APPLICATION_JSON)
-	public @ResponseBody SecurityQuestion getSecurityQuestions(@PathVariable("userId") final String userId) {
+	public SecurityQuestion getSecurityQuestions(@PathVariable("userId") final String userId) {
 		Assert.hasText(userId, "User Id cant be null");
 
 		return userSerivce.getSecurityQuestion(userId);
@@ -68,7 +83,7 @@ public class UserController {
 	@ApiOperation(value = "Add Security question for the give user Id", response = SecurityQuestion.class)
 	@RequestMapping(value = "/{userId}/questions", method = POST, consumes = APPLICATION_JSON)
 	public SecurityQuestion setSecurityQuestions(@RequestBody SecurityQuestion securityQuestion,
-			@PathVariable("userId") final String userId) throws InvalidDataException {
+			@PathVariable("userId") final String userId) {
 		Assert.notNull(securityQuestion, "user can not be empty or null");
 		Assert.hasText(userId, "User Id cant be null");
 
@@ -85,7 +100,7 @@ public class UserController {
 	@ApiOperation(value = "Checks if the user login is enabled or not", response = Boolean.class)
 	@RequestMapping(value = "/{userId}/enable", method = GET, produces = APPLICATION_JSON)
 	public boolean isEnabled(@PathVariable("userId") final String userId) {
-		return false;
+		return userSerivce.validateUser(userId);
 	}
 
 }
