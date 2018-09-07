@@ -3,7 +3,11 @@ package com.rituj.userService.UserService.domain;
 import java.time.LocalDateTime;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
+@NoArgsConstructor
 public abstract class Entity {
 	
 	@ApiModelProperty(notes = "Id of created doucument", required = true, example = "document Id")

@@ -3,7 +3,11 @@ package com.rituj.userService.UserService.domain;
 import java.util.List;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString
+@NoArgsConstructor
 public class User extends Entity {
 	@ApiModelProperty(notes = "user first name", required = true, example = "Thomas")
 	private String firstName;
