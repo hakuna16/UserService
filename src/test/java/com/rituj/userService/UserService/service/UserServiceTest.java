@@ -20,6 +20,7 @@ import com.rituj.userService.UserService.domain.Phone;
 import com.rituj.userService.UserService.domain.SecurityQuestion;
 import com.rituj.userService.UserService.domain.User;
 import com.rituj.userService.UserService.exception.InvalidDataException;
+import com.rituj.userService.UserService.exception.UserNotEnableException;
 import com.rituj.userService.UserService.repository.UserRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -125,7 +126,7 @@ public class UserServiceTest {
 		userService.getSecurityQuestion("");
 	}
 
-	@Test
+	@Test(expected = UserNotEnableException.class)
 	public void testGetSecurityQuestionWhenUserIsNotEnabled() {
 		String id = "User_001";
 		Login login = buildLogin();

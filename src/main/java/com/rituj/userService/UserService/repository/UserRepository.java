@@ -55,7 +55,7 @@ public class UserRepository {
 		return cbJsonObjectTransformer.toObject(couchbaseHelper.getJsonDocument(bucket, id), Login.class);
 	}
 
-	public User getUser(String userId) {
+	public User getUser(final String userId) {
 		Assert.hasText(userId, "user Id can not be null or empty");
 		
 		return cbJsonObjectTransformer.toObject(couchbaseHelper.getJsonDocument(bucket, userId), User.class);

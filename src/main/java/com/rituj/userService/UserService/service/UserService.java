@@ -72,6 +72,19 @@ public class UserService {
 		return login.isEnabled();
 	}
 
+	public boolean authoriseUser(final String userId, final String password) {
+		Assert.hasText(userId, "User Id cant be null");
+		Assert.hasText(password, "password cant be null");
+		
+		if(validateUser(userId)){
+			Login login = getLogin(userId);
+			if(password.equals(login.getPassword())){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private void setUserProperty(User user) {
 		Assert.notNull(user, "User cant be null");
 

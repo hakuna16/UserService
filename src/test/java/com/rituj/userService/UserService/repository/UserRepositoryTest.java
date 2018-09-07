@@ -145,4 +145,31 @@ public class UserRepositoryTest {
 		Login loginExpected = userRepository.getLogin(id);
 		assertNotNull(loginExpected);
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetUserWhenUserIdIsEmpty(){
+		userRepository.getUser("");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetUserWhenUserIdIsNull(){
+		userRepository.getLogin(null);
+	}
+	
+	@Test
+	public void testGetUser(){
+		
+		String id = "USER_001";
+		User user = new User();
+		user.setId(id);
+		
+		JsonObject jsonObject = JsonObject.create();
+		JsonDocument jsonDocument = JsonDocument.create(id, jsonObject);
+		
+		when(couchbaseHelper.getJsonDocument(mockedBucket, id)).thenReturn(jsonDocument);
+		when(mockedCbJsonObjectTransformer.toObject(jsonDocument, User.class)).thenReturn(user);
+		
+		User userExpected = userRepository.getUser("USER_001");
+		assertNotNull(userExpected);
+	}
 }

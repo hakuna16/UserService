@@ -1,10 +1,8 @@
 package com.rituj.userService.UserService.controller;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -38,23 +36,23 @@ public class UserController {
 		return userSerivce.createUserProfile(user);
 	}
 
-	@ApiOperation(value = "Updates user Profiles for the given user Id", response = User.class)
-	@RequestMapping(value = "/{userId}", method = PUT, produces = APPLICATION_JSON)
-	public User updateUserProfile(@PathVariable("userId") final String userId) {
-		return null;
-	}
-
 	@ApiOperation(value = "View user for that userId", response = User.class)
 	@RequestMapping(value = "/{userId}", method = GET, produces = APPLICATION_JSON)
 	public User getUserProfile(@PathVariable("userId") final String userId) {
 		return userSerivce.getUserProfile(userId);
 	}
 
-	@ApiOperation(value = "Delete user Profiles for the given user Id", response = User.class)
+	/*@ApiOperation(value = "Delete user Profiles for the given user Id", response = User.class)
 	@RequestMapping(value = "/{userId}", method = DELETE, produces = APPLICATION_JSON)
 	public User deleteUserProfile(@PathVariable("userId") final String userId) {
 		return null;
 	}
+	
+	@ApiOperation(value = "Updates user Profiles for the given user Id", response = User.class)
+	@RequestMapping(value = "/{userId}", method = PUT, produces = APPLICATION_JSON)
+	public User updateUserProfile(@PathVariable("userId") final String userId) {
+		return null;
+	}*/
 
 	@ApiOperation(value = "Creates login for user Profiles", response = Login.class)
 	@RequestMapping(value = "/login", method = POST, consumes = APPLICATION_JSON)
@@ -94,7 +92,10 @@ public class UserController {
 	@RequestMapping(value = "/{userId}/isAuthorized", method = POST, consumes = APPLICATION_JSON)
 	public boolean authorizeUser(@RequestParam("userId") final String userId,
 			@RequestParam("password") final String password) {
-		return false;
+		Assert.hasText(userId, "User Id cant be null");
+		Assert.hasText(password, "password cant be null");
+		
+		return userSerivce.authoriseUser(userId, password);
 	}
 
 	@ApiOperation(value = "Checks if the user login is enabled or not", response = Boolean.class)
