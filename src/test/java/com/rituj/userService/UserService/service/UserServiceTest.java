@@ -1,8 +1,10 @@
 package com.rituj.userService.UserService.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -40,10 +42,7 @@ public class UserServiceTest {
 	@Test
 	public void testCreateUserProfile() throws InvalidDataException {
 
-		User user = new User();
-		user.setFirstName("Rituj");
-		user.setLastName("Kumar");
-		user.setDocType("user");
+		User user = buildUser();
 
 		List<Phone> phones = new ArrayList<>();
 		phones.add(buildPhone());
@@ -152,6 +151,103 @@ public class UserServiceTest {
 
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetUserProfileWhenIdIsNull() {
+		userService.getUserProfile(null);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetUserProfileWhenIdIsEmpty() {
+		userService.getUserProfile("");
+	}
+
+	@Test
+	public void testGetUserProfile() {
+		String userId = "USER_001";
+		User user = new User();
+		user.setId(userId);
+		when(userRepository.getUser(userId)).thenReturn(user);
+		User expectedUser = userService.getUserProfile(userId);
+		assertNotNull(expectedUser);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAuthoriseUserWheUserIdIsNull() {
+		String password = "password";
+		userService.authoriseUser(null, password);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAuthoriseUserWheUserIdIsEmpty() {
+		String password = "password";
+		userService.authoriseUser("", password);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAuthoriseUserWhePasswordIsEmpty() {
+		String userId = "USER_001";
+		userService.authoriseUser(userId, "");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testAuthoriseUserWhenPasswordIsNull() {
+		String userId = "USER_001";
+		userService.authoriseUser(userId, null);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testauthoriseUserWhenBothIsEmpty() {
+		userService.authoriseUser("", "");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testauthoriseUserWhenBothIsNull() {
+		userService.authoriseUser(null, null);
+	}
+
+	@Test
+	public void testAuthoriseUserWhenUserIsNotEnabld() {
+		String userId = "USER_001";
+		String password = "password";
+
+		Login login = buildLogin();
+
+		when(userRepository.getLogin("Login_" + userId)).thenReturn(login);
+
+		boolean result = userService.authoriseUser(userId, password);
+		assertFalse(result);
+	}
+
+	@Test
+	public void testAuthoriseUserWhenUserIsEnabled() {
+		String userId = "USER_001";
+		String password = "password";
+
+		Login login = buildLogin();
+		login.setEnabled(true);
+		login.setPassword(password);
+
+		when(userRepository.getLogin("Login_" + userId)).thenReturn(login);
+
+		boolean result = userService.authoriseUser(userId, password);
+		assertTrue(result);
+	}
+
+	@Test
+	public void testAuthoriseUserWhenUserIsEnabledAndPasswordIsFalse() {
+		String userId = "USER_001";
+		String password = "password";
+
+		Login login = buildLogin();
+		login.setEnabled(true);
+		login.setPassword("");
+
+		when(userRepository.getLogin("Login_" + userId)).thenReturn(login);
+
+		boolean result = userService.authoriseUser(userId, password);
+		assertFalse(result);
+	}
+
 	private Login buildLogin() {
 		Login login = new Login();
 		login.setEnabled(false);
@@ -171,5 +267,13 @@ public class UserServiceTest {
 		securityQuestion.setDocType("SecurityQuestion");
 		securityQuestion.setId("SecurityQuestion_001");
 		return securityQuestion;
+	}
+	
+	private User buildUser(){
+		User user = new User();
+		user.setFirstName("Rituj");
+		user.setLastName("Kumar");
+		user.setDocType("user");
+		return user;
 	}
 }
