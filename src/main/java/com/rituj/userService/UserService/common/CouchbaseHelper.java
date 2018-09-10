@@ -71,7 +71,7 @@ public class CouchbaseHelper {
 	 */
 	public JsonDocument getJsonDocument(final Bucket bucket, final String documentId) {
 		Assert.notNull(bucket, "Cannot fetch if bucket is null!");
-		Assert.notNull(documentId, "Cannot get json document for null document id!");
+		Assert.hasText(documentId, "Cannot get json document for null document id!");
 		return bucket.get(documentId);
 	}
 

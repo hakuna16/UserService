@@ -39,6 +39,8 @@ public class UserController {
 	@ApiOperation(value = "View user for that userId", response = User.class)
 	@RequestMapping(value = "/{userId}", method = GET, produces = APPLICATION_JSON)
 	public User getUserProfile(@PathVariable("userId") final String userId) {
+		Assert.hasText(userId, "userId can not be empty or null");
+		
 		return userSerivce.getUserProfile(userId);
 	}
 
@@ -101,6 +103,8 @@ public class UserController {
 	@ApiOperation(value = "Checks if the user login is enabled or not", response = Boolean.class)
 	@RequestMapping(value = "/{userId}/enable", method = GET, produces = APPLICATION_JSON)
 	public boolean isEnabled(@PathVariable("userId") final String userId) {
+		Assert.hasText(userId, "userId can not be empty or null");
+		
 		return userSerivce.validateUser(userId);
 	}
 
